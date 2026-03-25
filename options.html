@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>CAM - Chrome Relay Extension Settings</title>
+    <style>
+      :root {
+        --bg: #0a0a0a;
+        --panel: #171717;
+        --text: #ededed;
+        --muted: #a3a3a3;
+        --border: #2b2b2b;
+        --ok: #10b981;
+        --warn: #f59e0b;
+      }
+      body {
+        margin: 0;
+        font-family: Inter, system-ui, -apple-system, Segoe UI, sans-serif;
+        background: var(--bg);
+        color: var(--text);
+      }
+      .wrap {
+        max-width: 720px;
+        margin: 24px auto;
+        padding: 0 16px;
+      }
+      .card {
+        background: var(--panel);
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        padding: 18px;
+      }
+      h1 {
+        margin: 0 0 14px;
+        font-size: 22px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+      .dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: var(--ok);
+        box-shadow: 0 0 6px rgba(16, 185, 129, 0.5);
+      }
+      .field {
+        margin-bottom: 14px;
+      }
+      label {
+        display: block;
+        font-weight: 600;
+        margin-bottom: 6px;
+        color: var(--text);
+      }
+      input {
+        width: 100%;
+        box-sizing: border-box;
+        border: 1px solid var(--border);
+        background: #111;
+        color: var(--text);
+        border-radius: 8px;
+        padding: 9px 10px;
+        font-size: 14px;
+      }
+      .hint {
+        margin-top: 5px;
+        color: var(--muted);
+        font-size: 12px;
+      }
+      .actions {
+        margin-top: 16px;
+      }
+      button {
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        padding: 10px 14px;
+        font-weight: 600;
+        background: #ededed;
+        color: #0a0a0a;
+        cursor: pointer;
+      }
+      button:hover {
+        opacity: 0.95;
+      }
+      button:disabled {
+        opacity: 0.6;
+        cursor: pointer;
+      }
+      #status {
+        margin-top: 12px;
+        font-size: 13px;
+        color: var(--muted);
+      }
+      .ok {
+        color: var(--ok);
+      }
+      .err {
+        color: var(--warn);
+      }
+      code {
+        background: #111;
+        border: 1px solid var(--border);
+        border-radius: 6px;
+        padding: 1px 5px;
+        color: var(--text);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <div class="card">
+        <h1><span class="dot"></span>CAM - Chrome Relay Settings</h1>
+
+        <div class="field">
+          <label for="baseUrl">Auth Manager Base URL</label>
+          <input id="baseUrl" type="text" placeholder="http://localhost:8080" />
+          <div class="hint">Example: <code>http://localhost:8080</code> or <code>https://auth.example.com</code></div>
+        </div>
+
+        <div class="field">
+          <label for="bearerToken">Internal API Bearer Token (Optional)</label>
+          <input id="bearerToken" type="password" placeholder="Leave empty if INTERNAL_API_TOKEN is not set" />
+          <div class="hint">Used as <code>Authorization: Bearer &lt;token&gt;</code>.</div>
+        </div>
+
+        <div class="actions">
+          <button id="saveBtn" type="button">Save Settings</button>
+        </div>
+
+        <div id="status"></div>
+      </div>
+    </div>
+
+    <script src="options.js"></script>
+  </body>
+</html>

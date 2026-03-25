@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Codex Auth Relay</title>
+    <style>
+      :root {
+        --bg: #0a0a0a;
+        --panel: #171717;
+        --text: #ededed;
+        --muted: #a3a3a3;
+        --ok: #10b981;
+        --border: #2b2b2b;
+      }
+      body {
+        font-family: Inter, system-ui, -apple-system, Segoe UI, sans-serif;
+        margin: 0;
+        min-height: 100vh;
+        display: grid;
+        place-items: center;
+        background: var(--bg);
+        color: var(--text);
+      }
+      .panel {
+        max-width: 460px;
+        background: var(--panel);
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        padding: 20px;
+      }
+      h1 { margin-top: 0; font-size: 20px; display:flex; align-items:center; gap:10px; }
+      .dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: var(--ok);
+        box-shadow: 0 0 6px rgba(16, 185, 129, 0.5);
+      }
+      p { line-height: 1.5; color: var(--muted); }
+      p:first-of-type { color: var(--ok); font-weight: 600; }
+    </style>
+  </head>
+  <body>
+    <div class="panel">
+      <h1><span class="dot"></span>Login completed</h1>
+      <p>The OAuth callback was relayed to auth-manager.</p>
+      <p>You can close this tab.</p>
+    </div>
+  </body>
+</html>

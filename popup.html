@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>CAM - Chrome Relay Extension</title>
+    <style>
+      :root {
+        --bg: #0a0a0a;
+        --panel: #171717;
+        --text: #ededed;
+        --muted: #a3a3a3;
+        --border: #2b2b2b;
+        --ok: #10b981;
+        --warn: #f59e0b;
+      }
+      body {
+        margin: 0;
+        width: 340px;
+        font-family: Inter, system-ui, -apple-system, Segoe UI, sans-serif;
+        background: var(--bg);
+        color: var(--text);
+      }
+      .wrap {
+        padding: 14px;
+      }
+      .card {
+        background: var(--panel);
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        padding: 14px;
+      }
+      h1 {
+        margin: 0 0 8px;
+        font-size: 16px;
+        letter-spacing: 0.2px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+      p {
+        margin: 0 0 12px;
+        font-size: 13px;
+        line-height: 1.4;
+        color: var(--muted);
+      }
+      .dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: var(--ok);
+        box-shadow: 0 0 6px rgba(16, 185, 129, 0.5);
+      }
+      .btn {
+        width: 100%;
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        padding: 10px 12px;
+        font-weight: 600;
+        background: #171717;
+        color: var(--text);
+        cursor: pointer;
+      }
+      .btn:hover {
+        border-color: #3a3a3a;
+      }
+      .btn:disabled {
+        opacity: 0.6;
+        cursor: default;
+      }
+      .btn.primary {
+        background: #ededed;
+        color: #0a0a0a;
+        border: none;
+      }
+      .btn.link {
+        margin-top: 8px;
+        padding: 0;
+        height: auto;
+        border: 0;
+        background: transparent;
+        color: #cbd5e1;
+        font-size: 12px;
+        text-align: left;
+      }
+      .footer {
+        margin-top: 10px;
+        font-size: 11px;
+        color: #737373;
+        line-height: 1.45;
+      }
+      .status {
+        margin-top: 10px;
+        font-size: 12px;
+        white-space: pre-wrap;
+        color: var(--muted);
+        min-height: 16px;
+      }
+      .ok {
+        color: var(--ok);
+      }
+      .err {
+        color: var(--warn);
+      }
+      code {
+        background: #111;
+        border: 1px solid var(--border);
+        border-radius: 6px;
+        padding: 1px 5px;
+        color: var(--text);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <div class="card">
+        <h1><span class="dot"></span>CAM - Chrome Relay</h1>
+        <p>Start relay login, complete auth in the opened tab, then localhost callback is captured and sent to auth-manager.</p>
+        <button id="startBtn" class="btn primary" type="button">Start Relay Login</button>
+        <button id="optionsBtn" class="btn link" type="button">Settings</button>
+        <div id="status" class="status"></div>
+        <div class="footer">
+          Open popup: <code>Ctrl+Shift+Y</code><br />
+          Start relay: <code>Ctrl+Shift+L</code>
+        </div>
+      </div>
+    </div>
+    <script src="popup.js"></script>
+  </body>
+</html>

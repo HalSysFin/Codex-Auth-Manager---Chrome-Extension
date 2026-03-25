@@ -1,0 +1,42 @@
+{
+  "manifest_version": 3,
+  "name": "CAM - Chrome Relay Extension",
+  "description": "Captures localhost OAuth callbacks and relays them to CAM Auth Manager.",
+  "version": "0.2.0",
+  "permissions": [
+    "storage",
+    "tabs",
+    "webNavigation"
+  ],
+  "host_permissions": [
+    "http://127.0.0.1:1445/*",
+    "http://localhost:1445/*",
+    "http://127.0.0.1:1455/*",
+    "http://localhost:1455/*",
+    "http://*/*",
+    "https://*/*"
+  ],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "action": {
+    "default_title": "CAM - Chrome Relay Extension",
+    "default_popup": "popup.html"
+  },
+  "options_page": "options.html",
+  "commands": {
+    "_execute_action": {
+      "suggested_key": {
+        "default": "Ctrl+Shift+Y",
+        "mac": "Command+Shift+Y"
+      }
+    },
+    "start-relay-login": {
+      "suggested_key": {
+        "default": "Ctrl+Shift+L",
+        "mac": "Command+Shift+L"
+      },
+      "description": "Start CAM relay login immediately"
+    }
+  }
+}
