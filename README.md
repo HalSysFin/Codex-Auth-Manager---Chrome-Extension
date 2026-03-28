@@ -1,118 +1,95 @@
-# Codex Auth Manager - Chrome Relay Extension
+# Codex Auth Relay Chrome Extension
 
-This Chrome extension works with Codex Auth Manager to capture and relay localhost authentication callbacks during browser-based login flows. It helps move authentication from a local browser session into the central Auth Manager service for storage and later use.
+This extension captures the localhost OAuth callback used during Codex/OpenAI login and relays it back to the Auth Manager server.
 
-## Features
+It is intended to help when the login flow opens a browser tab that returns to a localhost callback URL and you want the callback handed back to Auth Manager instead of getting stuck in the browser.
 
-- Start relay-backed login from the browser
-- Capture localhost callback URLs such as `http://localhost:1455/auth/callback`
-- Relay callback payloads back to CAM Auth Manager
-- Reduce manual copy/paste during login
-- Keep a manual fallback path when localhost callback conflicts exist
+## What It Does
 
-## Works With
+- starts a relay-backed login flow from the browser
+- watches for the localhost callback URL
+- posts the callback payload to Auth Manager
+- helps complete the Add Account / login relay flow without copying data manually every time
 
-This extension is designed to work with [Codex Auth Manager](https://github.com/HalSysFin/codex-auth-manager).
-- It relays the authentication flow from a local machine to the Codex Auth Manager server, where credentials can be stored and managed centrally.
+## Folder
 
-## Known Issues
+This extension lives in:
 
-- Authentication may fail if VS Code, or any other process, is already using port 1455 on the machine where the relay extension is installed.
-- For the smoothest experience, close VS Code before starting the relay flow.
+`chrome-extension/`
 
-Expected backend endpoints:
-
-- `POST /auth/login/start-relay`
-- `POST /auth/relay-callback`
-- `GET /auth/login/status`
-
-## Install
-
-### Load unpacked in Chrome
+## Install (Unpacked)
 
 1. Open `chrome://extensions`
 2. Enable **Developer mode**
 3. Click **Load unpacked**
-4. Select this repository folder
+4. Select the `chrome-extension/` folder from this repo
 
 ## Configure
 
-Open the popup or Options page and set:
+1. Open the extension popup or Options page
+2. Set **Auth Manager Base URL**
+   - Example: `https://your-domain`
+   - Local example: `http://localhost:8080`
+3. If your server requires `INTERNAL_API_TOKEN`, set the **Internal API Bearer Token**
+4. Save
 
-- **Auth Manager Base URL**
-  - example: `https://your-domain`
-  - local example: `http://localhost:8080`
-- **Internal API Bearer Token** if your backend requires it
+## Normal Usage
 
-## Normal Flow
-
-1. Open the extension popup: Set a shortcut with "ctrl + shift + L"
+1. Open the extension popup
 2. Click **Start Relay Login**
 3. Complete the browser login flow
-4. The extension captures the localhost callback URL
-5. The extension relays it back to CAM Auth Manager
-6. CAM Auth Manager continues the login flow on the server side
+4. The extension captures the localhost callback and sends it to:
 
-## Manual Fallback
+   `POST /auth/relay-callback`
+
+5. Auth Manager then continues the login/relay flow for that session
+
+## If the Callback Is Returned But Not Finalized
 
 If the browser lands on a localhost callback URL and nothing happens:
 
 1. Copy the full callback URL
-2. Open CAM Auth Manager
-3. Click **Add Account**
+2. Open Auth Manager
+3. Use **Add Account**
 4. Paste the callback URL into the modal
-5. Submit it so the manager can finalize the login manually
+5. Submit it so Auth Manager can relay/finalize it manually
 
-## Localhost Callback Conflicts
+## Important: Localhost Port Conflicts
 
-If another app is already listening on callback ports such as `1455`, the relay may fail or hang.
-
-Common causes:
-
-- VS Code auth flows
-- tools that bind localhost OAuth callback ports
-- other browser-assisted login tools
+If VS Code or another app is already listening on localhost callback ports such as `1445` or `1455`, the auth relay can fail or hang.
 
 Common symptoms:
 
-- the login flow hangs
-- the browser returns to localhost but nothing finalizes
-- the callback appears in the browser but the manager does not update
+- the auth flow hangs
+- the browser shows a localhost callback URL but the relay does not complete
+- the callback is captured but Auth Manager does not finalize the profile
 
 Best practice:
 
-- close tools that may be using localhost auth callback ports before starting relay login
-- if there is a conflict, retry after stopping the conflicting app
-- if needed, use the manual fallback flow in CAM Auth Manager
+- close or disable tools that may intercept localhost auth callbacks before starting relay login
+- especially stop VS Code auth-related flows if they are using the same localhost callback ports
+
+If there is a conflict:
+
+- stop the conflicting app
+- retry **Start Relay Login**
+- or paste the returned callback URL into **Add Account** in Auth Manager
 
 ## Shortcuts
 
 - Open popup: `Ctrl+Shift+Y` (`Command+Shift+Y` on macOS)
 - Start relay login: `Ctrl+Shift+L` (`Command+Shift+L` on macOS)
 
-## Security Notes
+## Related Server Endpoints
 
-- this extension only relays callback data to the configured CAM Auth Manager backend
-- if your backend is protected, use the correct bearer token
-- do not point the extension at an untrusted server
+The extension is designed to work with these Auth Manager endpoints:
 
-## Documentation
+- `POST /auth/login/start-relay`
+- `POST /auth/relay-callback`
+- `GET /auth/login/status`
 
-- [First-Time Setup](./FIRST_TIME_SETUP.md)
-- [Contributing](./CONTRIBUTING.md)
-- [Security Policy](./SECURITY.md)
-- [Wiki Pages](./docs/wiki/Home.md)
+## Notes
 
-## Files
-
-- `manifest.json`
-- `background.js`
-- `popup.html`
-- `popup.js`
-- `options.html`
-- `options.js`
-
-## License
-
-Released under the MIT License. See [LICENSE.txt](./LICENSE.txt).
-
+- This extension does not store your saved auth profiles itself; Auth Manager does that.
+- The extension is only responsible for capturing and relaying the browser callback during login.
+- If your backend is protected, make sure the configured bearer token matches your server settings.

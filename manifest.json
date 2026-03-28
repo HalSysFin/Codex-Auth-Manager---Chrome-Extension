@@ -1,8 +1,8 @@
 {
   "manifest_version": 3,
-  "name": "CAM - Chrome Relay Extension",
-  "description": "Captures localhost OAuth callbacks and relays them to CAM Auth Manager.",
-  "version": "0.2.0",
+  "name": "Codex Auth Relay",
+  "description": "Relays fixed localhost OAuth callbacks to Codex auth-manager.",
+  "version": "0.2.1",
   "permissions": [
     "storage",
     "tabs",
@@ -20,7 +20,7 @@
     "service_worker": "background.js"
   },
   "action": {
-    "default_title": "CAM - Chrome Relay Extension",
+    "default_title": "Codex Auth Relay",
     "default_popup": "popup.html"
   },
   "options_page": "options.html",
@@ -36,7 +36,7 @@
         "default": "Ctrl+Shift+L",
         "mac": "Command+Shift+L"
       },
-      "description": "Start CAM relay login immediately"
+      "description": "Start Codex relay login immediately"
     }
   }
 }
